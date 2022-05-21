@@ -1,0 +1,28 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DB_URI")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model FlashcardSet {
+    id        String      @id @default(auto()) @map("_id") @db.ObjectId
+    name      String
+    cards     Flashcard[]
+    length    Int
+    createdAt DateTime    @default(now())
+
+    @@map("flashcardsets")
+}
+
+model Flashcard {
+    id             String       @id @default(auto()) @map("_id") @db.ObjectId
+    flashcardSet   FlashcardSet @relation(fields: [flashcardSetId], references: [id])
+    flashcardSetId String       @db.ObjectId
+    question       String
+    answer         String
+
+    @@map("flashcards")
+}

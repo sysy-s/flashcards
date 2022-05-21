@@ -1,0 +1,21 @@
+.back {
+  transform: rotateX(0.5turn);
+  transition: transform 0.4s linear;
+  backface-visibility: hidden;
+}
+
+.flipped .back {
+  transform: rotateX(0turn);
+}
+
+.flipped .front {
+  transform: rotateX(-0.5turn);
+}
+
+.front {
+  position: absolute;
+
+  transform: rotateX(0turn);
+  transition: transform 0.4s linear;
+  backface-visibility: hidden;
+}
