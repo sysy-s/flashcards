@@ -40,37 +40,23 @@ export default async function handler(
             answer: req.body.answer
         }
 
-        let newCardResponse;
-
         try {
-            const currentSet = await prisma.flashcardSet.findFirst({
+            await prisma.flashcardSet.update({
                 where: {
                     id: id
                 },
-                select: {
-                    length: true
-                }
-            })
-            newCardResponse = await prisma.flashcard.create({ data: newCard });
+                data: { length: { increment: 1 } }
+            });
 
-            // increment length by one each time we add a new card
-            if (currentSet?.length) {
-                await prisma.flashcardSet.update({
-                    where: {
-                        id: id
-                    },
-                    data: {
-                        length: currentSet.length + 1
-                    }
-                })
-            }
+            const newCardEntry = await prisma.flashcard.create({
+                data: newCard
+            });
+            res.status(201).send(newCardEntry);
 
         } catch {
-            res.status(401).send(null);
-            return;
+            res.status(500).send("Something went wrong");
         }
 
-        res.status(201).send(newCardResponse);
     } else if (req.method === 'DELETE') {
         try {
             await prisma.flashcardSet.delete({

@@ -22,13 +22,14 @@ export default async function handler(
 
         res.status(200).json(cardSets);
     } else if (req.method === 'POST') {
-        const newCardSet = await prisma.flashcardSet.create({
+
+        // TODO try to return new set without throwing errors
+        await prisma.flashcardSet.create({
             data: {
                 name: String(req.body.name),
                 length: 0,
             }
         })
-        res.status(201).send(newCardSet);
+        res.status(201).send(null);
     }
-
 }

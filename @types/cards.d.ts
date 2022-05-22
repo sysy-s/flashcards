@@ -8,7 +8,7 @@ export interface CardSetFull {
     id: string,
     name: string,
     length: number,
-    cards?: Flashcard[]
+    cards: Flashcard[]
 }
 
 export interface CardSetVague {

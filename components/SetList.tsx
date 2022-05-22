@@ -7,8 +7,8 @@ export default function SetList(props: { sets: CardSetVague[] }) {
       {props.sets.map((set) => (
         <div className="p-4 text-gray-800 bg-white text-4xl">
           <Link href={`/set/${set.id}`}>
-            <a className="text-2xl">
-              {set.name} - length: {set.length}
+            <a className="text-2xl flex justify-between">
+              <span>{set.name}</span> <span>{set.length}</span>
             </a>
           </Link>
         </div>

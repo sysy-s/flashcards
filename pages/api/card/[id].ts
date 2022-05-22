@@ -5,6 +5,24 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'DELETE') {
         try {
+            const currentCard = await prisma.flashcard.findFirst({
+                where: {
+                    id: String(req.query.id)
+                },
+                select: {
+                    flashcardSetId: true
+                }
+            })
+
+            await prisma.flashcardSet.update({
+                where: {
+                    id: currentCard?.flashcardSetId
+                },
+                data: {
+                    length: { decrement: 1 }
+                }
+            })
+
             await prisma.flashcard.delete({
                 where: {
                     id: String(req.query.id)
